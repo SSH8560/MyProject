@@ -16,37 +16,37 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class MyprojectApplication {
 
-	private final MemberRepository memberRepository;
-	private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
-	private final CommentRepository commentRepository;
-	public static void main(String[] args) {
-		SpringApplication.run(MyprojectApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MyprojectApplication.class, args);
+    }
 
-	@PostConstruct
-	public void init() {
-		commentRepository.deleteAll();
-		postRepository.deleteAll();
-		memberRepository.deleteAll();
-
-
-		Member member = new Member();
-		member.setNickname("닉네임");
-		member.setUsername("test");
-		member.setPassword("1234");
-		member.setEmail("test@test.com");
-		member.setName("이름");
-		memberRepository.saveMember(member);
+    @PostConstruct
+    public void init() {
+        commentRepository.deleteAll();
+        postRepository.deleteAll();
+        memberRepository.deleteAll();
 
 
-		for (int i = 0; i < 20; i++) {
-			Post post = new Post();
-			post.setTitle("DUMMY "+ i);
-			post.setContent("Testing");
-			post.setMember(member);
-			postRepository.save(post);
-		}
+        Member member = new Member();
+        member.setNickname("닉네임");
+        member.setUsername("test");
+        member.setPassword("1234");
+        member.setEmail("test@test.com");
+        member.setName("이름");
+        memberRepository.saveMember(member);
 
-	}
+
+        for (int i = 0; i < 20; i++) {
+            Post post = new Post();
+            post.setTitle("DUMMY " + i);
+            post.setContent("Testing");
+            post.setMember(member);
+            postRepository.save(post);
+        }
+
+    }
 }

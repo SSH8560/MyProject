@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ssh8560.myproject.lostark.auction.*;
+
 import java.util.List;
 
 @SpringBootTest
@@ -12,15 +13,17 @@ class ApiServiceTest {
 
     @Autowired
     private ApiService apiService;
+
     @Test
     void searchItemFromAuction() {
         AuctionItemRequest auctionItemRequest = AuctionItemRequest.builder(CategoryCode.보석)
                 .itemName("10레벨 멸화")
                 .sortCondition(SortCondition.ASC)
+                .skillOption(SearchDetailOption.builder().firstOption(37350).secondOption(500).build())
                 .sort(Sort.BUY_PRICE)
                 .build();
 
-        Assertions.assertThatCode(()-> {
+        Assertions.assertThatCode(() -> {
             AuctionItemResponse auctionItemResponse = apiService.searchItemFromAuction(auctionItemRequest).block();
             List<Item> items = auctionItemResponse.getItems();
             for (Item item : items) {

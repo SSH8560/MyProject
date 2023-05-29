@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Singular;
 import ssh8560.myproject.lostark.Sort;
 import ssh8560.myproject.lostark.SortCondition;
 
@@ -24,9 +25,11 @@ public class AuctionItemRequest {
     private Integer itemGradeQuality;
 
     @JsonProperty("SkillOptions")
+    @Singular
     private List<SearchDetailOption> skillOptions;
 
     @JsonProperty("EtcOptions")
+    @Singular
     private List<SearchDetailOption> etcOptions;
 
     @JsonProperty("Sort")
@@ -60,25 +63,3 @@ public class AuctionItemRequest {
     }
 }
 
-@Getter
-@Setter
-class SearchDetailOption {
-    @JsonProperty("FirstOption")
-    private Integer firstOption;
-
-    @JsonProperty("SecondOption")
-    private Integer secondOption;
-
-    @JsonProperty("MinValue")
-    private Integer minValue;
-
-    @JsonProperty("MaxValue")
-    private Integer maxValue;
-
-    public SearchDetailOption(Integer firstOption, Integer secondOption, Integer minValue, Integer maxValue) {
-        this.firstOption = firstOption;
-        this.secondOption = secondOption;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-    }
-}
