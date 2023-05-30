@@ -1,4 +1,4 @@
-package ssh8560.myproject.lostark;
+package ssh8560.myproject.web.lostark;
 
 public abstract class ApiUrlConst {
     public static final String URL = "https://developer-lostark.game.onstove.com";

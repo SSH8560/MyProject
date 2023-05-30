@@ -1,4 +1,4 @@
-package ssh8560.myproject.lostark;
+package ssh8560.myproject.web.lostark;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package ssh8560.myproject.lostark;
+package ssh8560.myproject.web.lostark;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SkillOption {
+public class Skill {
     @JsonProperty("Value")
     private int value;
 

@@ -1,14 +1,13 @@
-package ssh8560.myproject.lostark.auction;
+package ssh8560.myproject.web.lostark.auction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Singular;
-import ssh8560.myproject.lostark.Sort;
-import ssh8560.myproject.lostark.SortCondition;
+import ssh8560.myproject.web.lostark.Sort;
+import ssh8560.myproject.web.lostark.SortCondition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

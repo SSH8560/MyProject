@@ -1,4 +1,4 @@
-package ssh8560.myproject.lostark;
+package ssh8560.myproject.web.lostark;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ssh8560.myproject.lostark.auction.AuctionItemRequest;
-import ssh8560.myproject.lostark.auction.AuctionItemResponse;
+import ssh8560.myproject.web.lostark.auction.AuctionItemRequest;
+import ssh8560.myproject.web.lostark.auction.AuctionItemResponse;
 
 @Service
 public class ApiService {

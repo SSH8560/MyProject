@@ -1,4 +1,4 @@
-package ssh8560.myproject.lostark.auction;
+package ssh8560.myproject.web.lostark.auction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

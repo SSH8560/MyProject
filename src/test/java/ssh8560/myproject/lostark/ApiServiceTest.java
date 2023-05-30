@@ -4,7 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ssh8560.myproject.lostark.auction.*;
+import ssh8560.myproject.web.lostark.*;
+import ssh8560.myproject.web.lostark.auction.*;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ class ApiServiceTest {
 
     @Autowired
     private ApiService apiService;
+
+    @Autowired
+    private List<Skill> skills;
 
     @Test
     void searchItemFromAuction() {
@@ -39,5 +43,33 @@ class ApiServiceTest {
 
             }
         }).doesNotThrowAnyException();
+    }
+
+    @Test
+    void searchItemFromAuctionWithSkills() {
+        for (Skill skill : skills) {
+            for (Tripod tripod : skill.getTripods()) {
+                if (!tripod.isGem()) {
+                    AuctionItemRequest auctionItemRequest = AuctionItemRequest.builder(CategoryCode.아뮬렛)
+                            .skillOption(SearchDetailOption.builder()
+                                    .firstOption(skill.getValue())
+                                    .secondOption(tripod.getValue())
+                                    .minValue(5)
+                                    .maxValue(5)
+                                    .build())
+                            .sort(Sort.BUY_PRICE)
+                            .sortCondition(SortCondition.ASC)
+                            .build();
+
+                    AuctionItemResponse auctionItemResponse = apiService.searchItemFromAuction(auctionItemRequest).block();
+                    if (!auctionItemResponse.getItems().isEmpty()) {
+                        Item cheapestItem = auctionItemResponse.getItems().get(0);
+                        System.out.print(String.format("%s스킬, %s 트라이포드의 최저가는 %d골드 입니다.", skill.getText(), tripod.getText(), cheapestItem.getAuctionInfo().getBuyPrice()));
+                    }
+
+                }
+            }
+        }
+
     }
 }
