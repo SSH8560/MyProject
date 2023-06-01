@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ssh8560.myproject.web.lostark.Skill;
+import ssh8560.myproject.web.lostark.auction.Skill;
 
 import java.io.File;
 import java.io.IOException;

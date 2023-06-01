@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Singular;
-import ssh8560.myproject.web.lostark.Sort;
-import ssh8560.myproject.web.lostark.SortCondition;
 
 import java.util.List;
 

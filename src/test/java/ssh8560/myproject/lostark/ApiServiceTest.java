@@ -5,8 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 import ssh8560.myproject.web.lostark.*;
 import ssh8560.myproject.web.lostark.auction.*;
+import ssh8560.myproject.web.lostark.character.ArmorySkill;
+import ssh8560.myproject.web.lostark.character.CharacterArmoryResponse;
+import ssh8560.myproject.web.lostark.character.CharacterData;
+import ssh8560.myproject.web.lostark.character.SkillTripod;
 
 import java.util.List;
 
@@ -50,7 +56,7 @@ class ApiServiceTest {
     }
 
     @Test
-    void searchItemFromAuctionWithSkills() {
+    void searchItemFromAuctionWithSkills() throws InterruptedException {
         for (Skill skill : skills) {
             for (Tripod tripod : skill.getTripods()) {
                 if (!tripod.isGem()) {
@@ -64,16 +70,41 @@ class ApiServiceTest {
                             .sort(Sort.BUY_PRICE)
                             .sortCondition(SortCondition.ASC)
                             .build();
-
-                    AuctionItemResponse auctionItemResponse = apiService.searchItemFromAuction(auctionItemRequest, apiKey).block();
-                    if (!auctionItemResponse.getItems().isEmpty()) {
-                        Item cheapestItem = auctionItemResponse.getItems().get(0);
-                        System.out.print(String.format("%s스킬, %s 트라이포드의 최저가는 %d골드 입니다.", skill.getText(), tripod.getText(), cheapestItem.getAuctionInfo().getBuyPrice()));
+                    Mono<AuctionItemResponse> auctionItemResponseMono = apiService.searchItemFromAuction(auctionItemRequest, apiKey);
+                    AuctionItemResponse auctionItemResponse = null;
+                    try {
+                        auctionItemResponse = auctionItemResponseMono.block();
+                    } catch (WebClientResponseException webClientResponseException) {
+                        Thread.sleep(60000);
+                        auctionItemResponse = auctionItemResponseMono.retry().block();
+                    } finally {
+                        if (auctionItemResponse.getItems() != null && !auctionItemResponse.getItems().isEmpty()) {
+                            Item cheapestItem = auctionItemResponse.getItems().get(0);
+                            System.out.println(String.format("%s스킬, %s 트라이포드의 최저가는 %d골드 입니다.", skill.getText(), tripod.getText(), cheapestItem.getAuctionInfo().getBuyPrice()));
+                        }
                     }
-
                 }
             }
         }
 
+
+
+    }
+
+    @Test
+    void searchCharacterCombatSkill() {
+        CharacterArmoryResponse characterArmoryResponse = apiService.getCharacterData("헤롱헤롱마븜사", apiKey, CharacterData.COMBAT_SKILL).block();
+
+        List<ArmorySkill> armorySkills = characterArmoryResponse.getArmorySkills();
+        for (ArmorySkill armorySkill : armorySkills) {
+            if (armorySkill.getLevel() != 1) {
+                System.out.println(armorySkill.getName());
+                for (SkillTripod tripod : armorySkill.getTripods()) {
+                    if (tripod.getIsSelected()) {
+                        System.out.println("tripod.getName() = " + tripod.getName());
+                    }
+                }
+            }
+        }
     }
 }
